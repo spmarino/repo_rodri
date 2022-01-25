@@ -2,27 +2,40 @@ import { useContext, useEffect,useState } from "react"
 import { useParams } from "react-router-dom"
 import ItemDetail from "./ItemDetail"
 import Loading from "./Loading"
+import {db} from './firebase'
+import {collection, getDoc, doc} from 'firebase/firestore'
+
 
 function ItemDetailCointaner(){
+    
 
-    const [personajes, setPersonajes] = useState({})
+    const [productos, setProductos]= useState([])
+
     const [loading, setLoading]=useState(false)
     const {id} = useParams()
     
     useEffect(()=>{
-        const url = `https://rickandmortyapi.com/api/character/${id}`
-        fetch(url)
-            .then((response)=>response.json())
-            .then((data)=>{
+        const coleccionProductos = collection(db, 'productos')
+        const pedido = doc(coleccionProductos, id)
+        const docs = getDoc(pedido)
+      
+
+        docs
+            .then((resultado) => {
+                  
+                    const producto =resultado.data()
+               
+                setProductos(producto)
                 setLoading(true)
-                setPersonajes(data)
             })
-            .catch(error=>console.log(error));
+            .catch((error) => {
+                console.log(error)
+            })
 
             return()=>{
-                setLoading(true)
+                setLoading(false)
             }
-            
+
         },[id])
     
 
@@ -35,7 +48,7 @@ function ItemDetailCointaner(){
             <div className="container">
                 <div className="row justify-content-between">
                     <div style={{display:'flex', flexWrap:'wrap'}}>
-                        <ItemDetail personaje={personajes}/>
+                        <ItemDetail producto={productos}/>
                     </div>
                 </div>
             </div>

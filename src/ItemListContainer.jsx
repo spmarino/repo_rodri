@@ -3,26 +3,60 @@ import {useContext, useEffect,useState} from 'react'
 import {useParams} from "react-router-dom";
 import ItemList from './ItemList'
 import Loading from './Loading';
-
+import {db} from './firebase'
+import {collection, getDocs, query, where} from 'firebase/firestore'
 
 function ItemListCointainer(){
 
+    
     const {id} = useParams();
-    const url = !id ? 'https://rickandmortyapi.com/api/character/' : 'https://rickandmortyapi.com/api/character/?gender='+id
 
+    
     const [personajes, setPersonajes] = useState([])
     const [loading, setLoading]=useState(true)
-
-// const initialUrl='https://rickandmortyapi.com/api/character'
-
+    const [productos, setProductos]= useState([])
+    
+    // const initialUrl='https://rickandmortyapi.com/api/character'
+    
+    
+    
     useEffect(()=>{
-        fetch(url)
-            .then((response)=>response.json())
-            .then((data)=>{
+        const coleccionProductos = collection(db, 'productos')
+
+        const listaProductos =
+                  (id === "categoria1") ? query(coleccionProductos, where("gender", "==", id))
+                : (id === "categoria2") ? query(coleccionProductos, where("gender", "==", id))
+                : coleccionProductos ;
+
+        const pedido = getDocs(listaProductos)
+     
+
+        pedido
+            .then((resultado) => {
+                const docs = resultado.docs;
+
+                const docs_reset= docs.map(doc=>{
+
+                    const producto ={
+                        id: doc.id,
+                        ...doc.data()
+                    }    
+                    return producto            })
+                    
+                setProductos(docs_reset)
                 setLoading(false)
-                setPersonajes(data.results)
             })
-            .catch(error=>console.log(error))
+            .catch((error) => {
+                console.log(error)
+            })
+
+        // fetch(url)
+        //     .then((response)=>response.json())
+        //     .then((data)=>{
+        //         setLoading(false)
+        //         setPersonajes(data.results)
+        //     })
+        //     .catch(error=>console.log(error))
         },[id])
 
 
@@ -34,7 +68,7 @@ function ItemListCointainer(){
                     ? 
                     (<Loading/>)
                     :
-                    <ItemList personajes={personajes}/>             
+                    <ItemList productos={productos}/>             
                 }
             </div>
         </div>

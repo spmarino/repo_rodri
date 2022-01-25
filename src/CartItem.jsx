@@ -3,14 +3,14 @@ import { CartContext } from './Context'
 
 const CartItem = ({personaje, contador}) => {
 
-    const {name, image, id } = personaje
+    const {name, imagen, id } = personaje
     const {removeItem} = useContext(CartContext)
 
     return(
         <div className="container">
             <h4>{name}</h4>
 
-            <img style={{width:'60px', height:'60px'}} src={image}/>
+            <img style={{width:'60px', height:'60px'}} src={imagen}/>
 
             <h4>{contador}</h4>
 
