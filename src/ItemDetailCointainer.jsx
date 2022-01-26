@@ -22,8 +22,7 @@ function ItemDetailCointaner(){
 
         docs
             .then((resultado) => {
-                  
-                    const producto =resultado.data()
+                  const producto = resultado.data()
                
                 setProductos(producto)
                 setLoading(true)
@@ -48,7 +47,7 @@ function ItemDetailCointaner(){
             <div className="container">
                 <div className="row justify-content-between">
                     <div style={{display:'flex', flexWrap:'wrap'}}>
-                        <ItemDetail producto={productos}/>
+                        <ItemDetail producto={productos} id={id}/>
                     </div>
                 </div>
             </div>

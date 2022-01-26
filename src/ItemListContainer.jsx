@@ -24,8 +24,8 @@ function ItemListCointainer(){
         const coleccionProductos = collection(db, 'productos')
 
         const listaProductos =
-                  (id === "categoria1") ? query(coleccionProductos, where("gender", "==", id))
-                : (id === "categoria2") ? query(coleccionProductos, where("gender", "==", id))
+                  (id === "placas") ? query(coleccionProductos, where("categoria", "==", id))
+                : (id === "mineria") ? query(coleccionProductos, where("categoria", "==", id))
                 : coleccionProductos ;
 
         const pedido = getDocs(listaProductos)
