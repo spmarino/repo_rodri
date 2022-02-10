@@ -1,5 +1,10 @@
 import React, { useContext } from "react";
 import { CartContext } from './Context'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from "react-bootstrap/esm/Col";
+import Card from 'react-bootstrap/Card'
+import './style.css'
 
 const CartItem = ({producto, id, cantidad}) => {
 
@@ -7,16 +12,13 @@ const CartItem = ({producto, id, cantidad}) => {
     const {removeItem} = useContext(CartContext)
 
     return(
-        <div className="container">
-            <h4>{name}</h4>
-
-            <img style={{width:'60px', height:'60px'}} src={imagen}/>
-            <p>Cantidad: {cantidad}</p>
-
-         
-
-            <button onClick={() =>removeItem(id) }> Borrar</button>
-        </div>
+                    <div className="itemDetail">
+                        <h4 className="text-center">{name}</h4>
+                        <div className="imageContainer">
+                        <img src={imagen} className="imgCard"/></div>
+                        <h4 className="text-center">Cantidad: {cantidad}</h4>
+                        <button style={{width:'100%', margin:' 0 5px'}} onClick={() =>removeItem(id) } className="btn btn-outline-dark"> Eliminar producto</button>
+                    </div>
     )
 
 }

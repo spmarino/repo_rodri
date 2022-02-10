@@ -1,10 +1,11 @@
-// Los hooks ('useState') no pueden incluirse en condiconales, el primer valor si no es asignado se toma como undefined,
 import {useContext, useEffect,useState} from 'react'
 import {useParams} from "react-router-dom";
 import ItemList from './ItemList'
 import Loading from './Loading';
 import {db} from './firebase'
 import {collection, getDocs, query, where} from 'firebase/firestore'
+import Container from "react-bootstrap/Container"
+
 
 function ItemListCointainer(){
 
@@ -12,7 +13,6 @@ function ItemListCointainer(){
     const {id} = useParams();
 
     
-    const [personajes, setPersonajes] = useState([])
     const [loading, setLoading]=useState(true)
     const [productos, setProductos]= useState([])
     
@@ -26,6 +26,7 @@ function ItemListCointainer(){
         const listaProductos =
                   (id === "placas") ? query(coleccionProductos, where("categoria", "==", id))
                 : (id === "mineria") ? query(coleccionProductos, where("categoria", "==", id))
+                : (id === "billetera") ? query(coleccionProductos, where("categoria", "==", id))
                 : coleccionProductos ;
 
         const pedido = getDocs(listaProductos)
@@ -41,8 +42,9 @@ function ItemListCointainer(){
                         id: doc.id,
                         ...doc.data()
                     }    
-                    return producto            })
-                    
+                    return producto
+                })
+                     
                 setProductos(docs_reset)
                 setLoading(false)
             })
@@ -61,8 +63,7 @@ function ItemListCointainer(){
 
 
     return(
-        <div className="container">
-            <div className="row justify-content-between">
+        <Container className='d-flex justify-content-center'>
                 {
                     loading
                     ? 
@@ -70,9 +71,9 @@ function ItemListCointainer(){
                     :
                     <ItemList productos={productos}/>             
                 }
-            </div>
-        </div>
+        </Container>
 )
 }
 
 export default ItemListCointainer
+

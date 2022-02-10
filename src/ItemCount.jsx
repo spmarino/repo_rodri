@@ -1,7 +1,11 @@
 import {useEffect, useState} from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
-const ItemCount= ({ stock , initial , onAdd }) => {
+const ItemCount= ({ producto , initial , onAdd }) => {
 
+    const {stock} = producto;
 
     const [contador, setContador]=useState(initial)
 
@@ -30,14 +34,21 @@ const ItemCount= ({ stock , initial , onAdd }) => {
 
 
     return(
-        <div>
-            <button type="button" onClick={aumentarContador} className="btn btn-outline-primary btn-sm">Agregar</button>
-            <button type="button" onClick={disminuirContador} className="btn btn-outline-secondary btn-sm">Restar</button>
-            <button type="button" onClick={resetearContador} className="btn btn-danger btn-sm">Reiniciar</button>
-          
+        <Row className='justify-content-md-center'>
+            <Col>
+                <Button type="button" onClick={aumentarContador} variant="outline-primary">Agregar</Button>
+            </Col>
 
-            <p>Contador actual: {contador}</p>
-        </div>
+            <Col>
+                <Button type="button" onClick={disminuirContador} variant='outline-primary' >Restar</Button>
+            </Col>
+
+            <Col>
+                <Button type="button" onClick={resetearContador} variant='outline-primary'>Reiniciar</Button>
+            </Col>
+
+            <p className='text-center'>Contador actual: {contador}</p>
+        </Row>
     )
 }
 
